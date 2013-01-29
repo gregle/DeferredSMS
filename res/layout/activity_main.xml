@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <TextView  
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:text="@string/rec_phone"
+        />     
+    <EditText 
+        android:id="@+id/phoneNo"  
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:hint="@string/rec_phone"
+        android:inputType="phone"       
+        />
+    <TextView  
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"         
+        android:text="@string/message"
+        />     
+    <EditText 
+        android:id="@+id/txtMessage"  
+        android:layout_width="fill_parent" 
+        android:layout_height="150px"
+        android:gravity="top"   
+        android:hint="@string/message"      
+        />          
+    <Button 
+        android:id="@+id/btnSendSMS"  
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:text="@string/send"
+        />    
+</LinearLayout>
