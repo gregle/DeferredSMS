@@ -7,5 +7,7 @@
     <string name="rec_phone">Enter the phone number of recipient</string>
     <string name="message">Message</string>
     <string name="send">Send SMS</string>
+    <string name="set_time">Set Send Time</string>
+    <string name="alarmPrompt">Alarm Not Set</string>
 
 </resources>

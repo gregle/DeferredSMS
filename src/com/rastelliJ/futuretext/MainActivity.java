@@ -1,18 +1,23 @@
 package com.rastelliJ.futuretext;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.os.Bundle;
-import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog.OnTimeSetListener;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
-import android.telephony.SmsManager;
 import android.net.Uri;
-import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
@@ -20,10 +25,14 @@ import android.database.Cursor;
 import android.content.DialogInterface;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity implements OnTimeSetListener{
 	
 	private EditText phoneNo, messageText;
+	private TextView alarmText;
 	private Button sendButt;
+	private int pickerHour = 0;
+	private int pickerMin = 0;
+	
 	private static final int CONTACT_PICKER_RESULT = 1;
 	
 	
@@ -35,6 +44,8 @@ public class MainActivity extends Activity {
         phoneNo = (EditText)findViewById(R.id.phoneNo);
         messageText = (EditText)findViewById(R.id.txtMessage);
         sendButt = (Button)findViewById(R.id.btnSendSMS);
+        alarmText = (TextView)findViewById(R.id.alarmPrompt);
+        
         phoneNo.setOnClickListener(new View.OnClickListener() 
         {
 			public void onClick(View v) 
@@ -58,22 +69,41 @@ public class MainActivity extends Activity {
 						Toast.makeText(getApplicationContext(), "Please enter your message", Toast.LENGTH_LONG).show();
 						return;
 					}
-					if (messageText.getText().toString().trim().length() > 160)
-					{
-						sendLongSMS();
-						phoneNo.setText("");
-						messageText.setText("");
-					}
-					else
-					{
-						sendSMS();
-						phoneNo.setText("");
-						messageText.setText("");
-					}
+					
+					Intent sIntent = new Intent(MainActivity.this, SendTService.class);
+					sIntent.putExtra("phoneNo", phoneNo.getText().toString());
+					sIntent.putExtra("msgTxt", messageText.getText().toString());
+					PendingIntent psIntent = PendingIntent.getService(MainActivity.this, 0, sIntent, 0);
+					AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+					Calendar cal = Calendar.getInstance();
+					cal.set(Calendar.HOUR_OF_DAY, pickerHour);
+					cal.set(Calendar.MINUTE, pickerMin);
+					cal.set(Calendar.SECOND, 0);
+					cal.set(Calendar.MILLISECOND, 0);
+					alarm.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), psIntent);
+
+					phoneNo.setText("");
+					messageText.setText("");
+					alarmText.setText("");
+					Toast.makeText(getApplicationContext(), "Your Message will be sent at " + pickerHour + ":" + pickerMin, Toast.LENGTH_LONG).show();
 				}
-    		});
+    		}
+		);
+    }
+    
+    /*    
+    public DatePickerFragment showDatePickerDialog() {
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+        return newFragment;
     }
 
+    public void showAlarmDialog(View v){  	
+    	
+    	datePick.show(getSupportFragmentManager(), "datePicker");
+        timePick.show(getSupportFragmentManager(), "timePicker");
+    }*/
+    
     @Override  
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {  
         if (resultCode == RESULT_OK) {  
@@ -140,30 +170,16 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
-    
-    public void sendSMS()
-    {
-    	SmsManager smsMan = SmsManager.getDefault();
-    	smsMan.sendTextMessage(phoneNo.getText().toString(), null, messageText.getText().toString(), null, null);
-    	addToSent(phoneNo.getText().toString(),messageText.getText().toString());
-    	Toast.makeText(getApplicationContext(), "Message Sent", Toast.LENGTH_LONG).show();
+
+    public void showTimePickerDialog(View v) {
+    	TimePickerFragment newFragment = new TimePickerFragment();
+        newFragment. show(getSupportFragmentManager(), "timePicker");  
     }
     
-    public void sendLongSMS()
-    {
-    	SmsManager smsMan = SmsManager.getDefault();
-    	ArrayList<String> parts = smsMan.divideMessage(messageText.getText().toString());
-    	smsMan.sendMultipartTextMessage(phoneNo.getText().toString(), null, parts, null, null);
-    	addToSent(phoneNo.getText().toString(),messageText.getText().toString());
-    	Toast.makeText(getApplicationContext(), "Message Sent", Toast.LENGTH_LONG).show();
-    }
-    
-    public void addToSent(String address, String body)
-    {
-    	ContentValues values = new ContentValues();
-    	values.put("address", address);
-    	values.put("body", body);
-    	getContentResolver().insert(Uri.parse("content://sms/sent"),  values);
-    	
-    }
+	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+		// Do something with the time chosen by the user
+	    pickerHour = hourOfDay;
+	    pickerMin = minute;
+	    alarmText.setText("hour: " + pickerHour + " minute: " + pickerMin);
+	}
 }

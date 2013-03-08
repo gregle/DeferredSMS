@@ -4,11 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <TextView  
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content" 
-        android:text="@string/rec_phone"
-        />     
+ 
     <EditText 
         android:id="@+id/phoneNo"  
         android:layout_width="fill_parent" 
@@ -16,15 +12,23 @@
         android:hint="@string/rec_phone"
         android:inputType="phone"       
         />
-    <TextView  
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"         
-        android:text="@string/message"
-        />     
+    <Button
+        android:id="@+id/startSetDialog"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:text="@string/set_time"
+        android:onClick="showTimePickerDialog"
+        />
+   <TextView
+        android:id="@+id/alarmPrompt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/alarmPrompt" 
+        />
     <EditText 
         android:id="@+id/txtMessage"  
         android:layout_width="fill_parent" 
-        android:layout_height="150px"
+        android:layout_height="150dp"
         android:gravity="top"   
         android:hint="@string/message"      
         />          
