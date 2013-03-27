@@ -1,0 +1,378 @@
+[1mdiff --git a/bin/classes/com/rastelliJ/futuretext/DatePickerFragment.class b/bin/classes/com/rastelliJ/futuretext/DatePickerFragment.class[m
+[1mdeleted file mode 100644[m
+[1mindex 6009824..0000000[m
+Binary files a/bin/classes/com/rastelliJ/futuretext/DatePickerFragment.class and /dev/null differ
+[1mdiff --git a/bin/classes/com/rastelliJ/futuretext/MainActivity$1.class b/bin/classes/com/rastelliJ/futuretext/MainActivity$1.class[m
+[1mdeleted file mode 100644[m
+[1mindex d6737d8..0000000[m
+Binary files a/bin/classes/com/rastelliJ/futuretext/MainActivity$1.class and /dev/null differ
+[1mdiff --git a/bin/classes/com/rastelliJ/futuretext/MainActivity$2.class b/bin/classes/com/rastelliJ/futuretext/MainActivity$2.class[m
+[1mdeleted file mode 100644[m
+[1mindex 15987fd..0000000[m
+Binary files a/bin/classes/com/rastelliJ/futuretext/MainActivity$2.class and /dev/null differ
+[1mdiff --git a/bin/classes/com/rastelliJ/futuretext/MainActivity$3.class b/bin/classes/com/rastelliJ/futuretext/MainActivity$3.class[m
+[1mdeleted file mode 100644[m
+[1mindex feb5a9f..0000000[m
+Binary files a/bin/classes/com/rastelliJ/futuretext/MainActivity$3.class and /dev/null differ
+[1mdiff --git a/bin/classes/com/rastelliJ/futuretext/MainActivity.class b/bin/classes/com/rastelliJ/futuretext/MainActivity.class[m
+[1mdeleted file mode 100644[m
+[1mindex fdec8a9..0000000[m
+Binary files a/bin/classes/com/rastelliJ/futuretext/MainActivity.class and /dev/null differ
+[1mdiff --git a/bin/classes/com/rastelliJ/futuretext/SendTService.class b/bin/classes/com/rastelliJ/futuretext/SendTService.class[m
+[1mdeleted file mode 100644[m
+[1mindex 1b94050..0000000[m
+Binary files a/bin/classes/com/rastelliJ/futuretext/SendTService.class and /dev/null differ
+[1mdiff --git a/bin/classes/com/rastelliJ/futuretext/TimePickerFragment.class b/bin/classes/com/rastelliJ/futuretext/TimePickerFragment.class[m
+[1mdeleted file mode 100644[m
+[1mindex e36207e..0000000[m
+Binary files a/bin/classes/com/rastelliJ/futuretext/TimePickerFragment.class and /dev/null differ
+[1mdiff --git a/src/com/rastelliJ/futuretext/DatePickerFragment.java b/src/com/rastelliJ/futuretext/DatePickerFragment.java[m
+[1mdeleted file mode 100644[m
+[1mindex 7999a64..0000000[m
+[1m--- a/src/com/rastelliJ/futuretext/DatePickerFragment.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,34 +0,0 @@[m
+[31m-package com.rastelliJ.futuretext;[m
+[31m-[m
+[31m-import java.util.Calendar;[m
+[31m-[m
+[31m-import android.app.DatePickerDialog;[m
+[31m-import android.app.Dialog;[m
+[31m-import android.os.Bundle;[m
+[31m-import android.support.v4.app.DialogFragment;[m
+[31m-import android.widget.DatePicker;[m
+[31m-[m
+[31m-public class DatePickerFragment extends DialogFragment[m
+[31m-[m
+[31m-implements DatePickerDialog.OnDateSetListener {	[m
+[31m-	public Calendar cal;[m
+[31m-	[m
+[31m-	@Override[m
+[31m-	public Dialog onCreateDialog(Bundle savedInstanceState) {[m
+[31m-		// Use the current date as the default date in the picker[m
+[31m-		final Calendar c = Calendar.getInstance();[m
+[31m-		int year = c.get(Calendar.YEAR);[m
+[31m-		int month = c.get(Calendar.MONTH);[m
+[31m-		int day = c.get(Calendar.DAY_OF_MONTH);[m
+[31m-		[m
+[31m-		// Create a new instance of DatePickerDialog and return it[m
+[31m-		return new DatePickerDialog(getActivity(), this, year, month, day);[m
+[31m-	}[m
+[31m-	[m
+[31m-	public void onDateSet(DatePicker view, int year, int month, int day) [m
+[31m-	{[m
+[31m-		// Do something with the date chosen by the user[m
+[31m-		cal = Calendar.getInstance();[m
+[31m-		cal.set(year, month, day);[m
+[31m-	}[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/src/com/rastelliJ/futuretext/MainActivity.java b/src/com/rastelliJ/futuretext/MainActivity.java[m
+[1mdeleted file mode 100644[m
+[1mindex 6a55980..0000000[m
+[1m--- a/src/com/rastelliJ/futuretext/MainActivity.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,185 +0,0 @@[m
+[31m-package com.rastelliJ.futuretext;[m
+[31m-[m
+[31m-import java.util.ArrayList;[m
+[31m-import java.util.Calendar;[m
+[31m-[m
+[31m-import android.os.Bundle;[m
+[31m-import android.app.AlarmManager;[m
+[31m-import android.app.AlertDialog;[m
+[31m-import android.app.PendingIntent;[m
+[31m-import android.app.TimePickerDialog.OnTimeSetListener;[m
+[31m-import android.support.v4.app.FragmentActivity;[m
+[31m-import android.view.Menu;[m
+[31m-import android.view.View;[m
+[31m-import android.widget.Button;[m
+[31m-import android.widget.EditText;[m
+[31m-import android.widget.TextView;[m
+[31m-import android.widget.TimePicker;[m
+[31m-import android.widget.Toast;[m
+[31m-import android.net.Uri;[m
+[31m-import android.content.Context;[m
+[31m-import android.content.Intent;[m
+[31m-import android.provider.ContactsContract;[m
+[31m-import android.provider.ContactsContract.CommonDataKinds.Phone;[m
+[31m-import android.database.Cursor;[m
+[31m-import android.content.DialogInterface;[m
+[31m-import java.util.List;[m
+[31m-[m
+[31m-public class MainActivity extends FragmentActivity implements OnTimeSetListener{[m
+[31m-	[m
+[31m-	private EditText phoneNo, messageText;[m
+[31m-	private TextView alarmText;[m
+[31m-	private Button sendButt;[m
+[31m-	private int pickerHour = 0;[m
+[31m-	private int pickerMin = 0;[m
+[31m-	[m
+[31m-	private static final int CONTACT_PICKER_RESULT = 1;[m
+[31m-	[m
+[31m-	[m
+[31m-    @Override[m
+[31m-    public void onCreate(Bundle savedInstanceState) {[m
+[31m-        super.onCreate(savedInstanceState);[m
+[31m-        setContentView(R.layout.activity_main);[m
+[31m-        [m
+[31m-        phoneNo = (EditText)findViewById(R.id.phoneNo);[m
+[31m-        messageText = (EditText)findViewById(R.id.txtMessage);[m
+[31m-        sendButt = (Button)findViewById(R.id.btnSendSMS);[m
+[31m-        alarmText = (TextView)findViewById(R.id.alarmPrompt);[m
+[31m-        [m
+[31m-        phoneNo.setOnClickListener(new View.OnClickListener() [m
+[31m-        {[m
+[31m-			public void onClick(View v) [m
+[31m-			{[m
+[31m-				Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);[m
+[31m-				startActivityForResult(intent, CONTACT_PICKER_RESULT);[m
+[31m-			}[m
+[31m-		});[m
+[31m-        [m
+[31m-        sendButt.setOnClickListener([m
+[31m-    		new View.OnClickListener()[m
+[31m-    		{[m
+[31m-				public void onClick(View v) {[m
+[31m-					if (phoneNo.getText().toString().trim().length() == 0)[m
+[31m-					{[m
+[31m-						Toast.makeText(getApplicationContext(), "Please enter a phone number", Toast.LENGTH_LONG).show();[m
+[31m-						return;[m
+[31m-					}[m
+[31m-					if (messageText.getText().toString().trim().length() == 0)[m
+[31m-					{[m
+[31m-						Toast.makeText(getApplicationContext(), "Please enter your message", Toast.LENGTH_LONG).show();[m
+[31m-						return;[m
+[31m-					}[m
+[31m-					[m
+[31m-					Intent sIntent = new Intent(MainActivity.this, SendTService.class);[m
+[31m-					sIntent.putExtra("phoneNo", phoneNo.getText().toString());[m
+[31m-					sIntent.putExtra("msgTxt", messageText.getText().toString());[m
+[31m-					PendingIntent psIntent = PendingIntent.getService(MainActivity.this, 0, sIntent, 0);[m
+[31m-					AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);[m
+[31m-					Calendar cal = Calendar.getInstance();[m
+[31m-					cal.set(Calendar.HOUR_OF_DAY, pickerHour);[m
+[31m-					cal.set(Calendar.MINUTE, pickerMin);[m
+[31m-					cal.set(Calendar.SECOND, 0);[m
+[31m-					cal.set(Calendar.MILLISECOND, 0);[m
+[31m-					alarm.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), psIntent);[m
+[31m-[m
+[31m-					phoneNo.setText("");[m
+[31m-					messageText.setText("");[m
+[31m-					alarmText.setText("");[m
+[31m-					Toast.makeText(getApplicationContext(), "Your Message will be sent at " + pickerHour + ":" + pickerMin, Toast.LENGTH_LONG).show();[m
+[31m-				}[m
+[31m-    		}[m
+[31m-		);[m
+[31m-    }[m
+[31m-    [m
+[31m-    /*    [m
+[31m-    public DatePickerFragment showDatePickerDialog() {[m
+[31m-        DatePickerFragment newFragment = new DatePickerFragment();[m
+[31m-        newFragment.show(getSupportFragmentManager(), "datePicker");[m
+[31m-        return newFragment;[m
+[31m-    }[m
+[31m-[m
+[31m-    public void showAlarmDialog(View v){  	[m
+[31m-    	[m
+[31m-    	datePick.show(getSupportFragmentManager(), "datePicker");[m
+[31m-        timePick.show(getSupportFragmentManager(), "timePicker");[m
+[31m-    }*/[m
+[31m-    [m
+[31m-    @Override  [m
+[31m-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {  [m
+[31m-        if (resultCode == RESULT_OK) {  [m
+[31m-            switch (requestCode) {  [m
+[31m-            case CONTACT_PICKER_RESULT:[m
+[31m-                final EditText phoneInput = (EditText) findViewById(R.id.phoneNo);[m
+[31m-                Cursor cursor = null;  [m
+[31m-                String phoneNumber = "";[m
+[31m-                List<String> allNumbers = new ArrayList<String>();[m
+[31m-                int phoneIdx = 0;[m
+[31m-                try {  [m
+[31m-                    Uri result = data.getData();  [m
+[31m-                    String id = result.getLastPathSegment();  [m
+[31m-                    cursor = getContentResolver().query(Phone.CONTENT_URI, null, Phone.CONTACT_ID + "=?", new String[] { id }, null);  [m
+[31m-                    phoneIdx = cursor.getColumnIndex(Phone.DATA);[m
+[31m-                    if (cursor.moveToFirst()) {[m
+[31m-                        while (cursor.isAfterLast() == false) {[m
+[31m-                            phoneNumber = cursor.getString(phoneIdx);[m
+[31m-                            allNumbers.add(phoneNumber);[m
+[31m-                            cursor.moveToNext();[m
+[31m-                        }[m
+[31m-                    } else {[m
+[31m-                        //no results actions[m
+[31m-                    }  [m
+[31m-                } catch (Exception e) {  [m
+[31m-                   //error actions[m
+[31m-                } finally {  [m
+[31m-                    if (cursor != null) {  [m
+[31m-                        cursor.close();[m
+[31m-                    }[m
+[31m-[m
+[31m-                    final CharSequence[] items = allNumbers.toArray(new String[allNumbers.size()]);[m
+[31m-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());[m
+[31m-                    builder.setTitle("Choose a number");[m
+[31m-                    builder.setItems(items, new DialogInterface.OnClickListener() {[m
+[31m-                        public void onClick(DialogInterface dialog, int item) {[m
+[31m-                            String selectedNumber = items[item].toString();[m
+[31m-                            selectedNumber = selectedNumber.replace("-", "");[m
+[31m-                            phoneInput.setText(selectedNumber);[m
+[31m-                        }[m
+[31m-                    });[m
+[31m-                    AlertDialog alert = builder.create();[m
+[31m-                    if(allNumbers.size() > 1) {[m
+[31m-                        alert.show();[m
+[31m-                    } else {[m
+[31m-                        String selectedNumber = phoneNumber.toString();[m
+[31m-                        selectedNumber = selectedNumber.replace("-", "");[m
+[31m-                        phoneInput.setText(selectedNumber);[m
+[31m-                    }[m
+[31m-[m
+[31m-                    if (phoneNumber.length() == 0) {  [m
+[31m-                        //no numbers found actions  [m
+[31m-                    }  [m
+[31m-                }  [m
+[31m-                break;  [m
+[31m-            }  [m
+[31m-        } else {[m
+[31m-           //activity result error actions[m
+[31m-        }  [m
+[31m-    }[m
+[31m-    [m
+[31m-    @Override[m
+[31m-    public boolean onCreateOptionsMenu(Menu menu) {[m
+[31m-        getMenuInflater().inflate(R.menu.activity_main, menu);[m
+[31m-        return true;[m
+[31m-    }[m
+[31m-[m
+[31m-    public void showTimePickerDialog(View v) {[m
+[31m-    	TimePickerFragment newFragment = new TimePickerFragment();[m
+[31m-        newFragment. show(getSupportFragmentManager(), "timePicker");  [m
+[31m-    }[m
+[31m-    [m
+[31m-	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {[m
+[31m-		// Do something with the time chosen by the user[m
+[31m-	    pickerHour = hourOfDay;[m
+[31m-	    pickerMin = minute;[m
+[31m-	    alarmText.setText("hour: " + pickerHour + " minute: " + pickerMin);[m
+[31m-	}[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/src/com/rastelliJ/futuretext/SendTService.java b/src/com/rastelliJ/futuretext/SendTService.java[m
+[1mdeleted file mode 100644[m
+[1mindex 0b7e4a6..0000000[m
+[1m--- a/src/com/rastelliJ/futuretext/SendTService.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,52 +0,0 @@[m
+[31m-package com.rastelliJ.futuretext;[m
+[31m-[m
+[31m-import java.util.ArrayList;[m
+[31m-[m
+[31m-import android.app.IntentService;[m
+[31m-import android.content.ContentValues;[m
+[31m-import android.content.Intent;[m
+[31m-import android.net.Uri;[m
+[31m-import android.telephony.SmsManager;[m
+[31m-import android.widget.Toast;[m
+[31m-[m
+[31m-public class SendTService extends IntentService{[m
+[31m-[m
+[31m-	public SendTService() {[m
+[31m-		super("SendTService");[m
+[31m-	}[m
+[31m-	[m
+[31m-	protected void onHandleIntent(Intent intent)[m
+[31m-	{[m
+[31m-		String entPhoneNo = intent.getStringExtra("phoneNo");[m
+[31m-		String entMsg = intent.getStringExtra("msgTxt");[m
+[31m-		if (entMsg.trim().length() > 160) sendLongSMS(entPhoneNo, entMsg);[m
+[31m-		else sendSMS(entPhoneNo, entMsg);		[m
+[31m-		[m
+[31m-	}[m
+[31m-    public void sendSMS(String phoneNo, String msgTxt)[m
+[31m-    {[m
+[31m-    	SmsManager smsMan = SmsManager.getDefault();[m
+[31m-    	smsMan.sendTextMessage(phoneNo, null, msgTxt, null, null);[m
+[31m-    	addToSent(phoneNo, msgTxt);[m
+[31m-    	String notice = "Message Sent to " + phoneNo;[m
+[31m-    	Toast.makeText(this, notice, Toast.LENGTH_LONG).show();[m
+[31m-    }[m
+[31m-    [m
+[31m-    public void sendLongSMS(String phoneNo, String msgTxt)[m
+[31m-    {[m
+[31m-    	SmsManager smsMan = SmsManager.getDefault();[m
+[31m-    	ArrayList<String> parts = smsMan.divideMessage(msgTxt);[m
+[31m-    	smsMan.sendMultipartTextMessage(phoneNo, null, parts, null, null);[m
+[31m-    	addToSent(phoneNo, msgTxt);[m
+[31m-    	String notice = "Message Sent to " + phoneNo;[m
+[31m-    	Toast.makeText(this, notice, Toast.LENGTH_LONG).show();[m
+[31m-    }[m
+[31m-    [m
+[31m-    public void addToSent(String address, String body)[m
+[31m-    {[m
+[31m-    	ContentValues values = new ContentValues();[m
+[31m-    	values.put("address", address);[m
+[31m-    	values.put("body", body);[m
+[31m-    	getContentResolver().insert(Uri.parse("content://sms/sent"),  values);[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/src/com/rastelliJ/futuretext/TimePickerFragment.java b/src/com/rastelliJ/futuretext/TimePickerFragment.java[m
+[1mdeleted file mode 100644[m
+[1mindex 3a101fc..0000000[m
+[1m--- a/src/com/rastelliJ/futuretext/TimePickerFragment.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,52 +0,0 @@[m
+[31m-package com.rastelliJ.futuretext;[m
+[31m-[m
+[31m-import java.util.Calendar;[m
+[31m-[m
+[31m-import android.support.v4.app.DialogFragment;[m
+[31m-import android.app.Activity;[m
+[31m-import android.app.Dialog;[m
+[31m-import android.app.TimePickerDialog;[m
+[31m-import android.app.TimePickerDialog.OnTimeSetListener;[m
+[31m-import android.os.Bundle;[m
+[31m-import android.text.format.DateFormat;[m
+[31m-import android.widget.TimePicker;[m
+[31m-[m
+[31m-public class TimePickerFragment extends DialogFragment[m
+[31m-	implements TimePickerDialog.OnTimeSetListener {[m
+[31m-	[m
+[31m-	private Activity mActivity;[m
+[31m-    private OnTimeSetListener mListener;[m
+[31m-[m
+[31m-    @Override[m
+[31m-    public void onAttach(Activity activity) {[m
+[31m-        super.onAttach(activity);[m
+[31m-        mActivity = activity;[m
+[31m-[m
+[31m-        // This error will remind you to implement an OnTimeSetListener [m
+[31m-        //   in your Activity if you forget[m
+[31m-        try {[m
+[31m-            mListener = (OnTimeSetListener) activity;[m
+[31m-        } catch (ClassCastException e) {[m
+[31m-            throw new ClassCastException(activity.toString() + " must implement OnTimeSetListener");[m
+[31m-        }[m
+[31m-    }[m
+[31m-[m
+[31m-    @Override[m
+[31m-    public Dialog onCreateDialog(Bundle savedInstanceState) {[m
+[31m-        // Use the current time as the default values for the picker[m
+[31m-        final Calendar c = Calendar.getInstance();[m
+[31m-        int hour = c.get(Calendar.HOUR_OF_DAY);[m
+[31m-        int minute = c.get(Calendar.MINUTE);[m
+[31m-[m
+[31m-        // Create a new instance of TimePickerDialog and return it[m
+[31m-[m
+[31m-        // I made a couple changes here![m
+[31m-        return new TimePickerDialog(mActivity, mListener, hour, minute,[m
+[31m-                DateFormat.is24HourFormat(mActivity));[m
+[31m-    }[m
+[31m-[m
+[31m-	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {[m
+[31m-		// TODO Auto-generated method stub[m
+[31m-		[m
+[31m-	}[m
+[31m-}[m
+\ No newline at end of file[m
