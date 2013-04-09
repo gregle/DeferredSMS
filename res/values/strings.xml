@@ -1,13 +1,11 @@
 <resources>
 
-    <string name="app_name">FutureText</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Deferred SMS</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Deferred SMS</string>
     <string name="rec_phone">Enter the phone number of recipient</string>
     <string name="message">Message</string>
     <string name="send">Send SMS</string>
     <string name="set_time">Set Send Time</string>
     <string name="alarmPrompt">Alarm Not Set</string>
-
 </resources>
