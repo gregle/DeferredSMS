@@ -1,18 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rastelliJ.futuretext"
     android:versionCode="1"
     android:versionName="1.0" >
-		
-	<uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
-	<uses-permission android:name="android.permission.WRITE_SMS"></uses-permission>
-	<uses-permission android:name="android.permission.READ_SMS"></uses-permission>
-	<uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
-    
+
+    <uses-permission android:name="android.permission.SEND_SMS" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_SMS" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.READ_SMS" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.READ_CONTACTS" >
+    </uses-permission>
+
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="15" />
+        android:minSdkVersion="11"
+        android:targetSdkVersion="17" />
 
     <application
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -21,16 +27,38 @@
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service
-            android:name="com.rastelliJ.deferredSMS.SendTService">
+
+        <service android:name="com.rastelliJ.deferredSMS.SendTService" >
         </service>
-        <receiver  
-            android:process=":remote" 
-            android:name="AlarmReceiver">
+
+        <receiver
+            android:name="com.rastelliJ.futuretext.AlarmReceiver"
+            android:process=":remote" >
         </receiver>
+
+        <provider
+            android:name="database.MyContentProvider"
+            android:authorities="your.package.provider"
+            android:enabled="true"
+            android:exported="false" >
+        </provider>
+
+        <activity
+            android:name="com.rastelliJ.deferredSMS.MessageListActivity"
+            android:label="@string/title_message_list" >
+        </activity>
+        <activity
+            android:name="com.rastelliJ.deferredSMS.MessageDetailActivity"
+            android:label="@string/title_message_detail"
+            android:parentActivityName="" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MessageListActivity" />
+        </activity>
     </application>
 
 </manifest>

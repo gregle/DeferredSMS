@@ -13,7 +13,7 @@
         android:inputType="phone"       
         />
     <Button
-        android:id="@+id/startSetDialog"
+        android:id="@+id/startTimeSetDialog"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
         android:text="@string/set_time"

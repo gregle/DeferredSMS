@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Deferred SMS</string>
@@ -8,4 +9,7 @@
     <string name="send">Send SMS</string>
     <string name="set_time">Set Send Time</string>
     <string name="alarmPrompt">Alarm Not Set</string>
+    <string name="title_message_list">Messages</string>
+    <string name="title_message_detail">Message Detail</string>
+
 </resources>
